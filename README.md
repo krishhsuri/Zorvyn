@@ -10,7 +10,7 @@ Designed following **Clean Architecture** (layered separation), **DRY**, **high 
 
 ```bash
 # 1. Clone the repository
-git clone <repo-url>
+git clone https://github.com/krishhsuri/Zorvyn
 cd Zorvyn
 
 # 2. Copy environment config
@@ -19,17 +19,13 @@ cp .env.example .env
 
 # 3. Start everything with Docker
 docker compose up --build
-
-# 4. Open API documentation
-# Swagger UI  → http://localhost:8000/docs
-# ReDoc       → http://localhost:8000/redoc
 ```
 
 A default **admin account** is seeded automatically on first startup:
 - Email: `admin@zorvyn.com`
 - Password: `admin123`
 
-> ⚠️ Change `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env` before any real deployment.
+
 
 ### Seed Demo Data
 
@@ -166,63 +162,7 @@ Permissions are attached to roles, never directly to users.
 
 ---
 
-## Project Structure
 
-```
-Zorvyn/
-├── docker-compose.yml          # PostgreSQL + App services
-├── Dockerfile                  # Python 3.12 slim container
-├── .env.example                # Environment variable template
-├── requirements.txt            # Python dependencies
-├── alembic.ini                 # Migration configuration
-├── pytest.ini                  # Test configuration
-├── alembic/
-│   ├── env.py                  # Async migration environment
-│   └── script.py.mako          # Migration template
-├── app/
-│   ├── main.py                 # App factory + lifespan (startup/shutdown)
-│   ├── core/
-│   │   ├── config.py           # Pydantic Settings (env vars)
-│   │   ├── database.py         # Async engine + session factory
-│   │   └── security.py         # JWT + password hashing
-│   ├── models/
-│   │   ├── user.py             # User ORM model (UUID, roles, soft-delete)
-│   │   └── record.py           # FinancialRecord ORM model (Numeric amounts)
-│   ├── schemas/
-│   │   ├── auth.py             # Login/Token Pydantic schemas
-│   │   ├── user.py             # User CRUD schemas
-│   │   ├── record.py           # Record CRUD + filter + pagination
-│   │   └── dashboard.py        # Analytics response schemas
-│   ├── repositories/
-│   │   ├── user_repo.py        # User DB queries
-│   │   └── record_repo.py      # Record CRUD + aggregations
-│   ├── services/
-│   │   ├── auth_service.py     # Login / token refresh logic
-│   │   ├── user_service.py     # User management rules
-│   │   ├── record_service.py   # Record business logic + ownership
-│   │   └── analytics_service.py# Summary, trends, category analytics
-│   ├── api/
-│   │   ├── deps.py             # Auth + role dependencies
-│   │   └── v1/
-│   │       ├── router.py       # V1 router aggregator
-│   │       ├── auth.py         # Login/refresh endpoints
-│   │       ├── users.py        # User management endpoints
-│   │       ├── records.py      # Record CRUD + export endpoints
-│   │       └── dashboard.py    # Analytics endpoints
-│   └── middleware/
-│       └── error_handler.py    # Global error handling
-├── scripts/
-│   └── seed.py                 # Demo data seeder
-└── tests/
-    ├── conftest.py             # Fixtures (test DB, clients, tokens)
-    ├── unit/
-    │   ├── test_security.py    # JWT + password hashing tests
-    │   └── test_services.py    # Business logic tests
-    └── integration/
-        ├── test_auth.py        # Auth endpoint tests
-        ├── test_records.py     # Record CRUD + RBAC tests
-        └── test_dashboard.py   # Analytics endpoint tests
-```
 
 ---
 
